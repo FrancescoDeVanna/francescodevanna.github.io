@@ -5,12 +5,33 @@ permalink: /talks/
 author_profile: true
 ---
 
-{% if site.talkmap_link == true %}
+{% include base_path %}
 
-<p style="text-decoration:underline;"><a href="/talkmap.html">See a map of all the places I've given a talk!</a></p>
+<p>Conference talks, invited lectures and outreach since 2019.</p>
 
-{% endif %}
-
-{% for post in site.talks reversed %}
-  {% include archive-single-talk.html %}
+{% assign by_year = site.talks | group_by_exp: "item", "item.date | date: '%Y'" | sort: "name" | reverse %}
+{% for year in by_year %}
+{% assign year_size = year.items | size %}
+<section class="pub-year-group">
+  <div class="pub-year-rail">
+    <h2 class="pub-year">
+      <span class="pub-year-num">{{ year.name }}</span>
+      <span class="pub-year-count">{{ year_size }} {% if year_size == 1 %}talk{% else %}talks{% endif %}</span>
+    </h2>
+  </div>
+  <div class="pub-year-items">
+  {% assign year_posts = year.items | sort: "date" | reverse %}
+  {% for post in year_posts %}
+    <div class="pub-item">
+      <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+        <h3 class="pub-title" itemprop="headline">
+          <a href="{{ base_path }}{{ post.url }}" rel="permalink">{{ post.title }}</a>
+        </h3>
+        <p class="pub-meta"><span class="pub-type">{{ post.type }}</span><i class="pub-venue">{{ post.venue }}</i></p>
+        <p class="pub-citation">{{ post.date | date: "%B %-d, %Y" }} &middot; {{ post.location }}</p>
+      </article>
+    </div>
+  {% endfor %}
+  </div>
+</section>
 {% endfor %}
