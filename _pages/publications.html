@@ -14,7 +14,10 @@ author_profile: true
 {% assign total = site.publications | size %}
 
 <div class="pub-controls">
-  <input type="search" id="pub-search" class="pub-search" placeholder="Search by title, author or venue&hellip;" aria-label="Search publications by title, author or venue" autocomplete="off">
+  <div class="pub-search-wrap">
+    <i class="fa fa-magnifying-glass pub-search-ico" aria-hidden="true"></i>
+    <input type="search" id="pub-search" class="pub-search" placeholder="Search by title, author or venue&hellip;" aria-label="Search publications by title, author or venue" autocomplete="off">
+  </div>
   <div class="pub-chips" role="group" aria-label="Filter by publication type">
     <button type="button" class="pub-chip is-active" data-cat="all" aria-pressed="true">All</button>
     {% for category in site.publication_category %}
@@ -30,8 +33,15 @@ author_profile: true
 
 {% assign by_year = site.publications | group_by_exp: "item", "item.date | date: '%Y'" | sort: "name" | reverse %}
 {% for year in by_year %}
+{% assign year_size = year.items | size %}
 <section class="pub-year-group">
-  <h2 class="pub-year">{{ year.name }}</h2>
+  <div class="pub-year-rail">
+    <h2 class="pub-year">
+      <span class="pub-year-num">{{ year.name }}</span>
+      <span class="pub-year-count">{{ year_size }} {% if year_size == 1 %}paper{% else %}papers{% endif %}</span>
+    </h2>
+  </div>
+  <div class="pub-year-items">
   {% assign year_posts = year.items | sort: "title" %}
   {% for post in year_posts %}
     {% case post.category %}
@@ -40,38 +50,68 @@ author_profile: true
       {% when 'books' %}{% assign cat_label = 'Book' %}
       {% else %}{% assign cat_label = site.publication_category[post.category].title | default: post.category %}
     {% endcase %}
-    <div class="list__item pub-item" data-cat="{{ post.category }}" data-search="{{ post.title | downcase | strip_html | escape }} {{ post.venue | downcase | escape }} {{ post.citation | strip_html | downcase | escape }}">
+    <div class="pub-item" data-cat="{{ post.category }}" data-search="{{ post.title | downcase | strip_html | escape }} {{ post.venue | downcase | escape }} {{ post.citation | strip_html | downcase | escape }}">
       <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
-        <h3 class="archive__item-title" itemprop="headline">
+        <h3 class="pub-title" itemprop="headline">
           <a href="{{ base_path }}{{ post.url }}" rel="permalink">{{ post.title }}</a>
         </h3>
-        <p class="pub-meta"><i>{{ post.venue }}</i> &middot; {{ cat_label }}</p>
+        <p class="pub-meta"><span class="pub-type">{{ cat_label }}</span><i class="pub-venue">{{ post.venue }}</i></p>
         {% if post.citation %}
           <p class="pub-citation">{{ post.citation }}</p>
         {% endif %}
         {% if post.paperurl %}
-          <p class="pub-links"><a href="{{ post.paperurl }}">Paper (DOI)</a></p>
+          <p class="pub-links"><a href="{{ post.paperurl }}">Paper <i class="fa fa-arrow-up-right-from-square" aria-hidden="true"></i></a></p>
         {% endif %}
       </article>
     </div>
   {% endfor %}
+  </div>
 </section>
 {% endfor %}
 
-<p class="pub-empty" id="pub-empty" hidden>No publications match your search.</p>
+<div class="pub-empty" id="pub-empty" hidden>
+  <p>No publications match your search.</p>
+  <button type="button" class="pub-chip" id="pub-clear">Clear search &amp; filters</button>
+</div>
 
 <script>
 (function () {
   var input = document.getElementById('pub-search');
-  var chips = Array.prototype.slice.call(document.querySelectorAll('.pub-chip'));
+  var chips = Array.prototype.slice.call(document.querySelectorAll('.pub-chip[data-cat]'));
   var items = Array.prototype.slice.call(document.querySelectorAll('.pub-item'));
   var groups = Array.prototype.slice.call(document.querySelectorAll('.pub-year-group'));
   var count = document.getElementById('pub-count');
   var empty = document.getElementById('pub-empty');
+  var clearBtn = document.getElementById('pub-clear');
   var total = items.length;
   var activeCat = 'all';
 
-  function apply() {
+  items.forEach(function (item) {
+    var a = item.querySelector('.pub-title a');
+    if (a) a.setAttribute('data-orig', a.textContent);
+  });
+
+  function highlight(item, q) {
+    var a = item.querySelector('.pub-title a');
+    if (!a) return;
+    var orig = a.getAttribute('data-orig');
+    while (a.firstChild) a.removeChild(a.firstChild);
+    if (!q) { a.appendChild(document.createTextNode(orig)); return; }
+    var low = orig.toLowerCase();
+    var pos = 0;
+    var idx = low.indexOf(q, pos);
+    while (idx !== -1) {
+      if (idx > pos) a.appendChild(document.createTextNode(orig.slice(pos, idx)));
+      var mark = document.createElement('mark');
+      mark.textContent = orig.slice(idx, idx + q.length);
+      a.appendChild(mark);
+      pos = idx + q.length;
+      idx = low.indexOf(q, pos);
+    }
+    if (pos < orig.length) a.appendChild(document.createTextNode(orig.slice(pos)));
+  }
+
+  function apply(animate) {
     var q = input.value.trim().toLowerCase();
     var visible = 0;
     items.forEach(function (item) {
@@ -79,7 +119,16 @@ author_profile: true
       var okText = !q || item.getAttribute('data-search').indexOf(q) !== -1;
       var show = okCat && okText;
       item.hidden = !show;
-      if (show) visible += 1;
+      highlight(item, show ? q : '');
+      if (show) {
+        if (animate) {
+          item.classList.remove('pub-anim');
+          void item.offsetWidth;
+          item.style.animationDelay = Math.min(visible, 10) * 14 + 'ms';
+          item.classList.add('pub-anim');
+        }
+        visible += 1;
+      }
     });
     groups.forEach(function (group) {
       var any = group.querySelector('.pub-item:not([hidden])');
@@ -91,7 +140,7 @@ author_profile: true
       : total + ' publications';
   }
 
-  input.addEventListener('input', apply);
+  input.addEventListener('input', function () { apply(true); });
   chips.forEach(function (chip) {
     chip.addEventListener('click', function () {
       activeCat = chip.getAttribute('data-cat');
@@ -100,8 +149,19 @@ author_profile: true
         c.classList.toggle('is-active', on);
         c.setAttribute('aria-pressed', on ? 'true' : 'false');
       });
-      apply();
+      apply(true);
     });
+  });
+  clearBtn.addEventListener('click', function () {
+    input.value = '';
+    activeCat = 'all';
+    chips.forEach(function (c) {
+      var on = c.getAttribute('data-cat') === 'all';
+      c.classList.toggle('is-active', on);
+      c.setAttribute('aria-pressed', on ? 'true' : 'false');
+    });
+    apply(true);
+    input.focus();
   });
 })();
 </script>

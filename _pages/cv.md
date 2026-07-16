@@ -37,6 +37,4 @@ Research interests
 
 Publications
 ======
-  <ul>{% for post in site.publications reversed %}
-    {% include archive-single-cv.html %}
-  {% endfor %}</ul>
+* Full list on the [Publications page](/publications/) or on [Google Scholar]({{ site.author.googlescholar }}).

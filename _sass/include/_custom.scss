@@ -155,12 +155,16 @@ p, li {
   --pub-muted: #595f63;          /* 5.5:1 on white */
   --pub-chip-active-bg: #1a5f8a;
   --pub-chip-active-ink: #fff;
+  --pub-hover: rgba(26, 95, 138, 0.05);
+  --pub-mark: rgba(26, 95, 138, 0.16);
 }
 
 html[data-theme="dark"] {
   --pub-muted: #c3c9cd;
   --pub-chip-active-bg: #85c0e2;
   --pub-chip-active-ink: #10222e;
+  --pub-hover: rgba(133, 192, 226, 0.09);
+  --pub-mark: rgba(133, 192, 226, 0.28);
 }
 
 .pub-controls {
@@ -168,10 +172,25 @@ html[data-theme="dark"] {
   font-family: $ui-sans;
 }
 
-.pub-search {
-  width: 100%;
+.pub-search-wrap {
+  position: relative;
   max-width: 34em;
-  padding: 0.55em 0.9em;
+}
+
+.pub-search-ico {
+  position: absolute;
+  left: 0.95em;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 0.85em;
+  color: var(--pub-muted);
+  pointer-events: none;
+}
+
+input[type="search"].pub-search {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 0.6em 0.9em 0.6em 2.5em;
   font-family: $ui-sans;
   font-size: 0.95em;
   color: var(--global-text-color);
@@ -232,35 +251,178 @@ html[data-theme="dark"] {
   color: var(--pub-muted);
 }
 
-.pub-year {
-  margin-top: 1.6em;
-  padding-bottom: 0.25em;
-  font-size: 1.4em;
-  border-bottom: 1px solid var(--global-border-color);
+/* Year groups: sticky numeral rail on desktop, classic heading on mobile */
+
+.pub-year-group {
+  margin-top: 2.4em;
 }
 
-.pub-meta {
-  margin: 0.15em 0 0.3em;
+.pub-year {
+  margin: 0 0 0.6em;
+  border-bottom: 1px solid var(--global-border-color);
+  padding-bottom: 0.3em;
+}
+
+.pub-year-num {
+  display: inline-block;
   font-family: $ui-sans;
-  font-size: 0.8em;
+  font-weight: 300;
+  font-size: 2.1rem;
+  line-height: 1;
+  letter-spacing: 0.01em;
+  color: var(--global-text-color);
+  font-variant-numeric: tabular-nums;
+}
+
+.pub-year-count {
+  display: inline-block;
+  margin-left: 0.7em;
+  font-family: $ui-sans;
+  font-size: 0.8rem;
   color: var(--pub-muted);
 }
 
+@media (min-width: 64em) {
+  .pub-year-group {
+    display: grid;
+    grid-template-columns: 6.8rem minmax(0, 1fr);
+    column-gap: 1.6rem;
+  }
+
+  .pub-year-rail {
+    position: sticky;
+    top: 1.2rem;
+    align-self: start;
+  }
+
+  .pub-year {
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+
+  .pub-year-num {
+    display: block;
+    font-size: 3.4rem;
+    font-weight: 250;
+  }
+
+  .pub-year-count {
+    display: block;
+    margin: 0.5em 0 0 0.15em;
+  }
+
+  .pub-year-items {
+    border-top: 1px solid var(--global-border-color);
+    padding-top: 0.4em;
+  }
+}
+
+/* Entries */
+
+.pub-item {
+  margin: 0;
+  padding: 0.85em 0;
+  border-radius: 8px;
+  border-bottom: 1px solid var(--global-border-color);
+
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+@media (min-width: 64em) {
+  .pub-item {
+    margin: 0 -0.7em;
+    padding: 0.85em 0.7em;
+
+    &:hover {
+      background: var(--pub-hover);
+    }
+  }
+}
+
+.pub-title {
+  margin: 0;
+  font-family: $content-serif;
+  font-size: 1.15em;
+  font-weight: 600;
+  line-height: 1.32;
+  text-wrap: balance;
+
+  a { text-decoration: none; }
+  a:hover { text-decoration: underline; text-underline-offset: 0.15em; }
+
+  mark {
+    background: var(--pub-mark);
+    color: inherit;
+    border-radius: 2px;
+    padding: 0 0.08em;
+  }
+}
+
+.pub-meta {
+  margin: 0.3em 0 0.35em;
+  font-family: $ui-sans;
+  font-size: 0.82em;
+  color: var(--pub-muted);
+}
+
+.pub-type {
+  font-variant-caps: all-small-caps;
+  letter-spacing: 0.06em;
+  font-weight: 600;
+  margin-right: 0.9em;
+}
+
+.pub-venue {
+  font-family: $content-serif;
+}
+
 .pub-citation {
-  margin: 0 0 0.3em;
+  margin: 0 0 0.35em;
   font-size: 0.85em;
+  color: var(--global-text-color);
+  opacity: 0.92;
 }
 
 .pub-links {
   margin: 0;
   font-family: $ui-sans;
   font-size: 0.82em;
+  font-weight: 600;
+
+  a { text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  .fa {
+    font-size: 0.75em;
+    margin-left: 0.15em;
+  }
 }
 
+/* Filter-change entrance: subtle, staggered, reduced-motion safe */
+
+@keyframes pub-in {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: none; }
+}
+
+.pub-anim {
+  animation: pub-in 0.22s cubic-bezier(0.22, 1, 0.36, 1) backwards;
+}
+
+/* Empty state */
+
 .pub-empty {
-  margin: 2em 0;
+  margin: 2.5em 0;
+  padding: 2em 1.5em;
+  text-align: center;
   font-family: $ui-sans;
   color: var(--pub-muted);
+  border: 1px dashed var(--global-dark-border-color);
+  border-radius: 10px;
+
+  p { margin: 0 0 1em; }
 }
 
 .pub-item[hidden],
