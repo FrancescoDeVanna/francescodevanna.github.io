@@ -18,6 +18,7 @@ Academic positions
 Education
 ======
 * **Ph.D. Student in Compressible Fluid Dynamics** — University of Padova, 2016–2019
+* **Visiting Ph.D. Student** — ISAE-ENSMA, Poitiers, France, 2018
 
 Research software
 ======
