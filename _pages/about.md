@@ -23,4 +23,4 @@ My work is in **computational fluid dynamics**, with a focus on:
 
 Alongside my research I develop **open-source scientific software** and work with modern HPC and Python stacks, with an interest in applying **machine learning** to fluid mechanics and engineering problems.
 
-Browse my [publications](/publications/) and [CV](/cv/) from the menu above, or reach me at [francesco.devanna@unipd.it](mailto:francesco.devanna@unipd.it).
+Browse my [publications](/publications/), [teaching](/teaching/) and [CV](/cv/) from the menu above — and if you are a student interested in a thesis or Ph.D., see [For Students](/students/). You can reach me at [francesco.devanna@unipd.it](mailto:francesco.devanna@unipd.it).
