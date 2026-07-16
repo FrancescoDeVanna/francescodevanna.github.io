@@ -1,0 +1,10 @@
+# The order of the links in the header of the website.
+# Remove an entry to hide it from the header (the page still exists).
+# Talks / Teaching / Projects are intentionally hidden until they have real content.
+
+main:
+  - title: "Publications"
+    url: /publications/
+
+  - title: "CV"
+    url: /cv/

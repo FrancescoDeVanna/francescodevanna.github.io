@@ -1,0 +1,180 @@
+/* ==========================================================================
+   SITE CUSTOMIZATIONS — refined academic look
+   Content set in STIX Two Text (the scientific-publishing typeface);
+   UI chrome (nav, sidebar meta, buttons, footer) in Source Sans 3.
+   Loaded last from assets/css/main.scss so it wins the cascade.
+   ========================================================================== */
+
+$content-serif: "STIX Two Text", Georgia, "Times New Roman", serif;
+$ui-sans: "Source Sans 3", -apple-system, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+
+/* ---- Color: accessible academic ink-blue (default #52adc8 fails AA) ---- */
+
+:root {
+  --global-link-color: #1a5f8a;         /* 6.9:1 on white */
+  --global-link-color-hover: #0f405e;
+  --global-link-color-visited: #53687a;
+  --global-text-color: #3d4449;         /* deeper body ink for serif text */
+}
+
+html[data-theme="dark"] {
+  --global-link-color: #85c0e2;
+  --global-link-color-hover: #b3d9ef;
+  --global-link-color-visited: #9fb4c4;
+}
+
+/* ---- Base typography ---- */
+
+html {
+  font-size: 17px;
+}
+
+body {
+  font-family: $content-serif;
+  line-height: 1.65;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: $content-serif;
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+h1, h2, h3 {
+  text-wrap: balance;
+}
+
+p, li {
+  text-wrap: pretty;
+}
+
+.page__content {
+  font-size: 1em;
+
+  > p, > ul, > ol {
+    max-width: 72ch;
+  }
+
+  h2 {
+    margin-top: 1.8em;
+    padding-bottom: 0.3em;
+    border-bottom: 1px solid var(--global-border-color);
+  }
+
+  a:not(.btn) {
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.15em;
+  }
+}
+
+.page__title {
+  font-size: 2rem;
+  letter-spacing: -0.01em;
+}
+
+/* ---- UI chrome in the sans ---- */
+
+.masthead,
+.greedy-nav,
+.author__content .author__bio,
+.author__urls,
+.author__urls-wrapper button,
+.btn,
+.page__meta,
+.page__footer,
+.pagination,
+.breadcrumbs,
+.toc,
+.sidebar .nav__list {
+  font-family: $ui-sans;
+}
+
+.masthead__inner-wrap {
+  font-family: $ui-sans;
+}
+
+.greedy-nav a {
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+
+.site-title {
+  font-family: $content-serif;
+  font-weight: 600;
+  letter-spacing: 0;
+}
+
+/* ---- Author sidebar ---- */
+
+.author__avatar img {
+  border: 1px solid var(--global-border-color);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+}
+
+.author__name {
+  font-family: $content-serif;
+  font-weight: 600;
+}
+
+.author__bio {
+  font-size: 0.85em;
+  line-height: 1.45;
+}
+
+/* ---- Publications / archive lists ---- */
+
+.archive__item-title {
+  font-family: $content-serif;
+  font-size: 1.12em;
+  font-weight: 600;
+  line-height: 1.35;
+  margin-top: 0.4em;
+
+  a { text-decoration: none; }
+  a:hover { text-decoration: underline; text-underline-offset: 0.15em; }
+}
+
+.archive__item-excerpt,
+.archive__item .page__meta {
+  font-size: 0.85em;
+}
+
+.list__item {
+  padding-bottom: 0.9em;
+  margin-bottom: 0.9em;
+  border-bottom: 1px solid var(--global-border-color);
+
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+/* ---- Footer & disclaimer ---- */
+
+.page__footer-disclaimer {
+  max-width: 62ch;
+  margin: 0 auto 0.8em;
+  font-family: $ui-sans;
+  font-size: 0.8em;
+  font-style: italic;
+  text-align: center;
+  color: var(--global-text-color);
+  opacity: 0.85;
+}
+
+.page__footer-copyright {
+  font-family: $ui-sans;
+  font-size: 0.75em;
+}
+
+/* ---- Motion restraint ---- */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
