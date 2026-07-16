@@ -431,6 +431,67 @@ input[type="search"].pub-search {
   display: none !important;
 }
 
+/* ---- Front page ---- */
+
+.home-lead {
+  font-size: 1.32em;
+  line-height: 1.5;
+  font-weight: 500;
+  max-width: 30em;
+  margin: 0.2em 0 0.9em;
+  text-wrap: pretty;
+  animation: pub-in 0.5s cubic-bezier(0.22, 1, 0.36, 1) backwards;
+}
+
+.home-index {
+  margin: 1.4em 0 0.4em;
+  font-family: $ui-sans;
+  font-variant-caps: all-small-caps;
+  letter-spacing: 0.05em;
+  font-weight: 600;
+  font-size: 0.95em;
+
+  a {
+    color: var(--global-text-color);
+    text-decoration: none;
+    white-space: nowrap;
+
+    &:hover {
+      color: var(--global-link-color);
+      text-decoration: underline;
+      text-underline-offset: 0.2em;
+    }
+  }
+}
+
+.home-index-sep {
+  margin: 0 0.55em;
+  color: var(--pub-muted);
+}
+
+.home-latest {
+  .pub-item {
+    padding: 0.55em 0;
+  }
+
+  .pub-title {
+    font-size: 1.05em;
+  }
+}
+
+.home-more {
+  font-family: $ui-sans;
+  font-size: 0.85em;
+  font-weight: 600;
+
+  a { text-decoration: none; }
+  a:hover { text-decoration: underline; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home-lead { animation: none; }
+}
+
 /* ---- Footer & disclaimer ---- */
 
 .page__footer-disclaimer {
