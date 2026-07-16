@@ -18,5 +18,8 @@ main:
   - title: "For Students"
     url: /students/
 
+  - title: "Awards"
+    url: /awards/
+
   - title: "CV"
     url: /cv/
