@@ -19,6 +19,9 @@ Education
 ======
 * **Ph.D. Student in Compressible Fluid Dynamics** — University of Padova, 2016–2019
 * **Visiting Ph.D. Student** — ISAE-ENSMA, Poitiers, France, 2018
+* **M.Sc. in Mechanical Engineering** (110/110) — University of Padova, 2016
+* **B.Sc. in Mechanical Engineering** (110/110) — University of Padova, 2014
+* **Liceo Classico Diploma** (100/100) — Convitto Nazionale "Marco Foscarini", Venice, Italy, 2011
 
 Research software
 ======
