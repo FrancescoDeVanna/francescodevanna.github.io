@@ -5,32 +5,103 @@ permalink: /publications/
 author_profile: true
 ---
 
+{% include base_path %}
+
 {% if site.author.googlescholar %}
   <div class="wordwrap">You can also find my articles on <a href="{{site.author.googlescholar}}">my Google Scholar profile</a>.</div>
 {% endif %}
 
-{% include base_path %}
+{% assign total = site.publications | size %}
 
-<!-- New style rendering if publication categories are defined -->
-{% if site.publication_category %}
-  {% for category in site.publication_category  %}
-    {% assign title_shown = false %}
-    {% for post in site.publications reversed %}
-      {% if post.category != category[0] %}
-        {% continue %}
+<div class="pub-controls">
+  <input type="search" id="pub-search" class="pub-search" placeholder="Search by title, author or venue&hellip;" aria-label="Search publications by title, author or venue" autocomplete="off">
+  <div class="pub-chips" role="group" aria-label="Filter by publication type">
+    <button type="button" class="pub-chip is-active" data-cat="all" aria-pressed="true">All</button>
+    {% for category in site.publication_category %}
+      {% assign cat_items = site.publications | where: "category", category[0] %}
+      {% assign cat_count = cat_items | size %}
+      {% if cat_count > 0 %}
+        <button type="button" class="pub-chip" data-cat="{{ category[0] }}" aria-pressed="false">{{ category[1].title }} ({{ cat_count }})</button>
       {% endif %}
-      {% unless title_shown %}
-        <h2>{{ category[1].title }}</h2><hr />
-        {% assign title_shown = true %}
-      {% endunless %}
-      {% include archive-single.html %}
     {% endfor %}
+  </div>
+  <p class="pub-count" id="pub-count" aria-live="polite">{{ total }} publications</p>
+</div>
+
+{% assign by_year = site.publications | group_by_exp: "item", "item.date | date: '%Y'" | sort: "name" | reverse %}
+{% for year in by_year %}
+<section class="pub-year-group">
+  <h2 class="pub-year">{{ year.name }}</h2>
+  {% assign year_posts = year.items | sort: "title" %}
+  {% for post in year_posts %}
+    {% case post.category %}
+      {% when 'manuscripts' %}{% assign cat_label = 'Journal Article' %}
+      {% when 'conferences' %}{% assign cat_label = 'Conference Paper' %}
+      {% when 'books' %}{% assign cat_label = 'Book' %}
+      {% else %}{% assign cat_label = site.publication_category[post.category].title | default: post.category %}
+    {% endcase %}
+    <div class="list__item pub-item" data-cat="{{ post.category }}" data-search="{{ post.title | downcase | strip_html | escape }} {{ post.venue | downcase | escape }} {{ post.citation | strip_html | downcase | escape }}">
+      <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+        <h3 class="archive__item-title" itemprop="headline">
+          <a href="{{ base_path }}{{ post.url }}" rel="permalink">{{ post.title }}</a>
+        </h3>
+        <p class="pub-meta"><i>{{ post.venue }}</i> &middot; {{ cat_label }}</p>
+        {% if post.citation %}
+          <p class="pub-citation">{{ post.citation }}</p>
+        {% endif %}
+        {% if post.paperurl %}
+          <p class="pub-links"><a href="{{ post.paperurl }}">Paper (DOI)</a></p>
+        {% endif %}
+      </article>
+    </div>
   {% endfor %}
-{% else %}
-  {% for post in site.publications reversed %}
-    {% include archive-single.html %}
-  {% endfor %}
-{% endif %}
+</section>
+{% endfor %}
 
+<p class="pub-empty" id="pub-empty" hidden>No publications match your search.</p>
 
+<script>
+(function () {
+  var input = document.getElementById('pub-search');
+  var chips = Array.prototype.slice.call(document.querySelectorAll('.pub-chip'));
+  var items = Array.prototype.slice.call(document.querySelectorAll('.pub-item'));
+  var groups = Array.prototype.slice.call(document.querySelectorAll('.pub-year-group'));
+  var count = document.getElementById('pub-count');
+  var empty = document.getElementById('pub-empty');
+  var total = items.length;
+  var activeCat = 'all';
 
+  function apply() {
+    var q = input.value.trim().toLowerCase();
+    var visible = 0;
+    items.forEach(function (item) {
+      var okCat = activeCat === 'all' || item.getAttribute('data-cat') === activeCat;
+      var okText = !q || item.getAttribute('data-search').indexOf(q) !== -1;
+      var show = okCat && okText;
+      item.hidden = !show;
+      if (show) visible += 1;
+    });
+    groups.forEach(function (group) {
+      var any = group.querySelector('.pub-item:not([hidden])');
+      group.hidden = !any;
+    });
+    empty.hidden = visible !== 0;
+    count.textContent = (q || activeCat !== 'all')
+      ? visible + ' of ' + total + ' publications'
+      : total + ' publications';
+  }
+
+  input.addEventListener('input', apply);
+  chips.forEach(function (chip) {
+    chip.addEventListener('click', function () {
+      activeCat = chip.getAttribute('data-cat');
+      chips.forEach(function (c) {
+        var on = c === chip;
+        c.classList.toggle('is-active', on);
+        c.setAttribute('aria-pressed', on ? 'true' : 'false');
+      });
+      apply();
+    });
+  });
+})();
+</script>
