@@ -2,14 +2,13 @@
 
 <!-- start custom head snippets -->
 
-<!-- Typefaces: STIX Two Text (scientific-publishing serif) for content, Source Sans 3 for UI -->
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=STIX+Two+Text:ital,wght@0,400..700;1,400..700&family=Source+Sans+3:ital,wght@0,400..700;1,400..700&display=swap">
+<!-- Typefaces (self-hosted): STIX Two Text (scientific-publishing serif) for content, Source Sans 3 for UI -->
+<link rel="preload" href="{{ base_path }}/assets/fonts/gf/stixtwotext-normal-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="{{ base_path }}/assets/fonts/gf/sourcesans3-normal-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="{{ base_path }}/assets/css/fonts.css">
 
-<!-- Support for Academicons -->
-<link rel="preload" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css"></noscript>
+<!-- Support for Academicons (self-hosted) -->
+<link rel="stylesheet" href="{{ base_path }}/assets/css/academicons.min.css">
 
 <!-- Support for Font Awesome -->
  <link rel="preload" href="{{ base_path }}/assets/css/fontawesome.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
