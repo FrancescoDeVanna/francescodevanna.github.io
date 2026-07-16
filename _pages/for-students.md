@@ -4,9 +4,9 @@ title: "For Students"
 author_profile: true
 ---
 
-I regularly supervise B.Sc. and M.Sc. theses and welcome motivated students interested in computational fluid dynamics, propulsion and high-performance computing. Below are the main areas where I currently offer projects — specific topics are tailored together, based on your background and interests.
+I supervise **M.Sc. theses and Ph.D. projects** (I do not currently offer B.Sc. theses) and welcome motivated students interested in computational fluid dynamics, propulsion and high-performance computing. Below are the main areas where I currently offer projects — specific topics are tailored together, based on your background and interests.
 
-## Thesis areas (B.Sc. / M.Sc.)
+## Thesis areas (M.Sc.)
 
 - **High-fidelity simulation of gas-turbine flows** — wall-modeled/wall-resolved LES of transonic vanes, shock/boundary-layer interaction and **film cooling**, using the [URANOS](/portfolio/uranos/) solver on EuroHPC systems.
 - **GPU computing and HPC development** — porting and optimizing CFD kernels (Fortran/OpenACC) for modern accelerators, performance analysis on pre-exascale machines.
