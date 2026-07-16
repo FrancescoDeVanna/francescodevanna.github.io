@@ -38,13 +38,19 @@ I am the lead developer of [**URANOS**](/portfolio/uranos/), an open-source GPU-
 
 ## Latest publications
 
-{% assign latest = site.publications | sort: "date" | reverse %}
+{% comment %} Only first-author journal articles (citation starts with "De Vanna") {% endcomment %}
+{% assign latest = site.publications | where: "category", "manuscripts" | sort: "date" | reverse %}
+{% assign shown = 0 %}
 <div class="home-latest">
-{% for post in latest limit: 3 %}
+{% for post in latest %}
+  {% assign lead_author = post.citation | strip | slice: 0, 8 %}
+  {% if lead_author == "De Vanna" and shown < 3 %}
   <div class="pub-item">
     <h3 class="pub-title"><a href="{{ post.url }}">{{ post.title }}</a></h3>
     <p class="pub-meta"><i class="pub-venue">{{ post.venue }}</i> &middot; {{ post.date | date: "%Y" }}</p>
   </div>
+  {% assign shown = shown | plus: 1 %}
+  {% endif %}
 {% endfor %}
 </div>
 
