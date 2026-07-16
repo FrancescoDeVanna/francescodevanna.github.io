@@ -11,10 +11,13 @@ redirect_from:
 
 Academic positions
 ======
-* **Tenure-Track Assistant Professor in Aerospace Propulsion** — Department of Industrial Engineering, University of Padova & CISAS "G. Colombo", since 2025
-* **Postdoctoral Fellow in Computational Fluid Dynamics** — Department of Industrial Engineering, University of Padova, 2019–2025
+* **Tenure-Track Assistant Professor in Aerospace Propulsion** — Department of Industrial Engineering, University of Padova & CISAS "G. Colombo", since April 2026
+* **Junior Assistant Professor** — Department of Industrial Engineering, University of Padova, 2023–2026
+* **Postdoctoral Fellow in Computational Fluid Dynamics** — Department of Industrial Engineering, University of Padova, 2019–2023
 
-<!-- TODO(Francesco): add Education entries (Ph.D. / M.Sc. / B.Sc. with years) — left out rather than guessed. -->
+Education
+======
+* **Ph.D. Student in Compressible Fluid Dynamics** — University of Padova, 2016–2019
 
 Research software
 ======
