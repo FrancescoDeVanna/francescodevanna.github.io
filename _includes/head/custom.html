@@ -23,4 +23,34 @@
 <link rel="icon" href="/images/favicon.ico"/>
 <meta name="theme-color" content="var(--global-bg-color)"/>
 
+{% if page.url == "/" %}
+<!-- Structured data: Person (helps search engines connect the site to existing profiles) -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Francesco De Vanna",
+  "givenName": "Francesco",
+  "familyName": "De Vanna",
+  "jobTitle": "Tenure-Track Assistant Professor in Aerospace Propulsion",
+  "worksFor": {
+    "@type": "CollegeOrUniversity",
+    "name": "University of Padova",
+    "department": "Department of Industrial Engineering"
+  },
+  "url": "https://francescodevanna.github.io/",
+  "email": "mailto:francesco.devanna@unipd.it",
+  "sameAs": [
+    "https://orcid.org/0000-0001-6627-5451",
+    "https://scholar.google.com/citations?user=TYMNKyQAAAAJ",
+    "https://www.scopus.com/authid/detail.uri?authorId=57216895982",
+    "https://www.researchgate.net/profile/Francesco-De-Vanna-2",
+    "https://github.com/francescodevanna",
+    "https://www.linkedin.com/in/francesco-de-vanna-26b1a6a6"
+  ],
+  "knowsAbout": ["Computational Fluid Dynamics", "Aerospace Propulsion", "Large-Eddy Simulation", "High-Performance Computing", "GPU Computing", "Film Cooling"]
+}
+</script>
+{% endif %}
+
 <!-- end custom head snippets -->
